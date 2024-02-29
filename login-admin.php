@@ -6,16 +6,33 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Login Admin</h1>
+<div id="sectionAdmin">
+    <h1>Login Admin <img src="assets/logoadmin.png" id="logoAdm"></h1>
     <h3>Rentrez votre mot de passe</h3>
 <form action="admin.php" method="POST">
 <input type="password" placeholder="Mot de passe" name="password">
+<button>Se connecter</button>
+</div>
+<br>
 <?php
 if (isset ($error)){
     echo "<label> $error</label>";
 }
     ?>
-<button>Se connecter</button>
+
 </form>
+<style>
+    body {
+        text-align : center;
+        border: 1px solid black;
+        padding: 30px;
+    }
+    h1,h3,button {
+        font-family: Arial;
+    }
+    #logoAdm {
+        width : 30px;
+        height: 30px
+    }
 </body>
 </html>

@@ -19,7 +19,7 @@
             height: 300px;
         }
 
-        #admin {
+        #loginAdmin {
             position: fixed;
             cursor: pointer;
             top: 20px;
@@ -36,18 +36,23 @@
             z-index: 99;
             color: black;
             font-size: 18px;
+            padding: 0;
         }
 
         #logoAdmin {
             width: 20px;
             height: 20px;
         }
+        a {
+            text-decoration: none;
+            color: black;
+        }
     </style>
 
     <header>
-        <a href="/login-admin.php">
-            <img src="assets/logoadmin.png" alt="Logo Admin" id="logoAdmin">Admin
-        </a>
+        <button id=loginAdmin><a href="/login-admin.php">
+            <img src="assets/logoadmin.png" alt="Logo Admin" id="logoAdmin"> Admin
+        </a></button>
     </header>
 </body>
 

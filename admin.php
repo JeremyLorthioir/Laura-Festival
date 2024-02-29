@@ -3,7 +3,6 @@ $password = "coucou";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($_POST["password"] === $password) {
-        // include 'reservation.php';
     } else {
         $error = "Le mot de passe ne correspond pas";
         include 'login-admin.php';
@@ -16,6 +15,7 @@ $fichier = fopen("reservations.csv", "r");
 <style>
     table {
         width: 100%;
+        font-family: Arial, Helvetica, sans-serif;
         background-color: #FFFFFF;
         border-collapse: collapse;
         border-width: 2px;
@@ -26,14 +26,12 @@ $fichier = fopen("reservations.csv", "r");
 
     table td,
     table th {
-        border-width: 2px;
-        border-color: #7EA8F8;
-        border-style: solid;
+        border: 2px solid black;
         padding: 5px;
     }
 
     table thead {
-        background-color: #7EA8F8;
+        background-color: rgb(90, 166, 171);
     }
 </style>
 <table>
