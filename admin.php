@@ -1,11 +1,12 @@
 <?php
-$password = "coucou";
+const PASSWORD = "coucou";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if ($_POST["password"] === $password) {
-    } else {
+    if ($_POST["password"] !== PASSWORD) {
         $error = "Le mot de passe ne correspond pas";
-        include 'login-admin.php';
+
+        header("location:login-admin.php?error=" . $error);
+        exit;
     }
 }
 
@@ -35,7 +36,7 @@ $fichier = fopen("reservations.csv", "r");
     }
 </style>
 <table>
-    <thead>
+    <thead>    
         <th>Nom</th>
         <th>Prénom</th>
         <th>Email</th>
@@ -43,10 +44,12 @@ $fichier = fopen("reservations.csv", "r");
         <th>Adresse postale</th>
         <th>Nombre de places</th>
         <th>Tarif réduit</th>
+        <th>Prix total</th>
         <th>Nombre jour réduit</th>
         <th>Nombre jour</th>
         <th>Choix pass 1 jour</th>
         <th>Choix pass 2 jours</th>
+        <th>Choix pass 3 jours</th>
         <th>Tente nuit 1</th>
         <th>Tente nuit 2</th>
         <th>Tente nuit 3</th>
