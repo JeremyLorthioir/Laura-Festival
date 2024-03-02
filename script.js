@@ -1,6 +1,6 @@
-let fieldsetReservation = document.getElementById("reservation");
-let fieldsetOptions = document.getElementById("options");
-let fieldsetCoordonnees = document.getElementById("coordonnees");
+var fieldsetReservation = document.getElementById("reservation");
+var fieldsetOptions = document.getElementById("options");
+var fieldsetCoordonnees = document.getElementById("coordonnees");
 
 //Par défaut afficher seulement la section "réservation"
 fieldsetReservation.style.display = "block";
@@ -8,7 +8,7 @@ fieldsetOptions.style.display = "none";
 fieldsetCoordonnees.style.display = "none";
 
 //Au clic sur le bouton suivant, passer à la section "options" et cacher les autres
-let btnSuivant1 = document.getElementById("btnSuivant1");
+var btnSuivant1 = document.getElementById("btnSuivant1");
 
 btnSuivant1.addEventListener('click', () => {
   fieldsetReservation.style.display = "none";
@@ -17,7 +17,7 @@ btnSuivant1.addEventListener('click', () => {
 })
 
 //Au clic sur le bouton suivant, passer à la section "coordonnées" et cacher les autres
-let btnSuivant2 = document.getElementById("btnSuivant2");
+var btnSuivant2 = document.getElementById("btnSuivant2");
 
 btnSuivant2.addEventListener('click', () => {
   fieldsetReservation.style.display = "none";
@@ -25,7 +25,7 @@ btnSuivant2.addEventListener('click', () => {
   fieldsetCoordonnees.style.display = "block";
 })
 //Au clic sur le bouton précédent on revient sur la section réservation
-let btnPrecedent = document.getElementById("btnPrecedent");
+var btnPrecedent = document.getElementById("btnPrecedent");
 
 btnPrecedent.addEventListener('click', () => {
   fieldsetReservation.style.display = "block";
@@ -34,7 +34,7 @@ btnPrecedent.addEventListener('click', () => {
 })
 
 //Au clic sur le 2ème bouton précédent on revient sur la section options
-let btnPrecedent2 = document.getElementById("btnPrecedent2");
+var btnPrecedent2 = document.getElementById("btnPrecedent2");
 
 btnPrecedent2.addEventListener('click', () => {
   fieldsetReservation.style.display = "none";
@@ -208,11 +208,3 @@ function afficherCasques() {
 //     checkboxEnfantsOui.checked = false;
 //   }
 // });
-
-//Redirection bouton ADMIN 
-let adminButton = document.getElementById("admin");
-
-adminButton.addEventListener("click", function () {
-  console.log()
-  window.location.href = "./login-admin.php";
-});
