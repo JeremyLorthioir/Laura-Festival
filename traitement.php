@@ -3,41 +3,44 @@ define("MAX_RANGE", 200);
 define("PRIX_TENTE_VAN_1_NUIT", 7);
 define("PRIX_TENTE_VAN_3_NUITS", 18);
 
+//Vérification des champs des coordonnées
 if (isset($_POST) && $_POST) {
-
     if (isset($_POST['nom']) && $_POST['nom'] !== "") {
         $nom = htmlspecialchars($_POST['nom']);
     } else {
         header('location:../index.php?error=' . "Le nom est obligatoire !");
         exit;
     }
-    $prenom = $_POST["prenom"];
-
+    if (isset($_POST['prenom']) && $_POST['prenom'] !== "") {
+        $nom = htmlspecialchars($_POST['prenom']);
+    } else {
+        header('location:../index.php?error=' . "Le prénom est obligatoire !");
+        exit;
+    }
+ //Vérification email
     if (isset($_POST['email']) && $_POST['email'] !== "") {
         if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
             $email = htmlspecialchars($_POST['email']);
         } else {
-            header('location:../index.php?error=' . "L'email n'est pas valide !");
-            exit;
-        }
-    } else {
-        header('location:../index.php?error=' . "L'email est obligatoire !");
+        header('location:../index.php?error=' . "L'email n'est pas valide.");
         exit;
     }
-    $telephone = $_POST["telephone"];
-    $adressePostale = $_POST["adressePostale"];
-
-    if (filter_var($_POST['nombrePlaces'], FILTER_VALIDATE_INT, array("options" => array("min_range" => 0, "max_range" => MAX_RANGE)))) {
-        $nombrePlaces = ($_POST['nombrePlaces']);
-    } else {
-        header('location:../index.php?error=' . "Mon erreur sur nombre place");
+ //Vérification du numéro de téléphone
+    if(filter_var($_POST['telephone'], FILTER_SANITIZE_NUMBER_INT)) {
+        $telephone = htmlspecialchars($_POST['telephone']);
+    }else {
+        header('location:../index.php?error='."Le numéro de téléphone n'est pas valide.");
         exit;
     }
+    
+//Vérification des caractères de l'adresse postale
+    $adressePostale = htmlspecialchars($_POST['adressePostale']);    
+    };
 
-    $tarifReduit = isset($_POST["tarifReduit"]) ? "Oui" : "Non";
-
-    $prixTotal = 0;
-    $nombreJourReduit = $choixNombreJourReduit = null;
+//Calcul du prix total
+$tarifReduit = isset($_POST["tarifReduit"]) ? "Oui" : "Non";
+$prixTotal = 0;
+$nombreJourReduit = $choixNombreJourReduit = null;
     if (isset($_POST['nbJourReduit'])) {
         $nombreJourReduit = $_POST['nbJourReduit'];
         // Récupérer la valeur sélectionnée
@@ -142,7 +145,7 @@ if (isset($_POST) && $_POST) {
     $nombreCasquesEnfants = isset($_POST["nombreCasquesEnfants"]) && $_POST["nombreCasquesEnfants"] !== "" ? $_POST["nombreCasquesEnfants"] : 0;
     $nombreLugesEte = isset($_POST["NombreLugesEte"]) && $_POST["NombreLugesEte"] !== "" ? $_POST["NombreLugesEte"] : 0;
 
-    // Checking tent cost
+    // Vérification prix pour la réservation tente
     if ($tenteNuit1 === "Oui") {
         $prixTotal += PRIX_TENTE_VAN_1_NUIT;
     }
@@ -156,7 +159,7 @@ if (isset($_POST) && $_POST) {
         $prixTotal += PRIX_TENTE_VAN_3_NUITS;
     }
 
-    // Checking van cost
+    // Vérification prix pour la réservation van 
     if ($vanNuit1 === "Oui") {
         $prixTotal += PRIX_TENTE_VAN_1_NUIT;
     }
@@ -170,10 +173,10 @@ if (isset($_POST) && $_POST) {
         $prixTotal += PRIX_TENTE_VAN_3_NUITS;
     }
 
-    // Multiplying passes, tents and vans by number of people
+    // Multiplication par le nombre de personnes
     $prixTotal *= $nombrePlaces;
 
-    // Checking price of headphones and sleds
+    // Vérification prix des casques et des luges
     $prixTotal += ($nombreCasquesEnfants * 2);
     $prixTotal += ($nombreLugesEte * 5);
     if (!isset($erreur)) {
@@ -206,10 +209,12 @@ if (isset($_POST) && $_POST) {
         $csv = fopen("reservations.csv", "a");
         fputcsv($csv, $data);
 
-        // Réponse à l'utilisateur
+    // Réponse à l'utilisateur
         echo "Merci pour votre réservation !";
     }
 } ?>
+
+<!-- //Affichage récapitulatif réservation sous forme de liste -->
 
 <h2>Récapitulatif réservation</h2>
 <ul>

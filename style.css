@@ -37,10 +37,10 @@ form {
     box-sizing: border-box;
   }
   
-input[type="checkbox"] {
-    position : relative;
-    top: 20px;
-    left: 500px;
+input[type="radio"] {
+  position: relative;
+  top: 20px;
+  left: 500px;
 }
 
 input[type="number"]{
