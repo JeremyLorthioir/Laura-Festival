@@ -1,31 +1,78 @@
-var fieldsetReservation = document.getElementById("reservation");
-var fieldsetOptions = document.getElementById("options");
-var fieldsetCoordonnees = document.getElementById("coordonnees");
+let fieldsetReservation = document.getElementById("reservation");
+let fieldsetOptions = document.getElementById("options");
+let fieldsetCoordonnees = document.getElementById("coordonnees");
 
 //Par défaut afficher seulement la section "réservation"
 fieldsetReservation.style.display = "block";
 fieldsetOptions.style.display = "none";
 fieldsetCoordonnees.style.display = "none";
 
-//Au clic sur le bouton suivant, passer à la section "options" et cacher les autres
-var btnSuivant1 = document.getElementById("btnSuivant1");
+//Gestion d'évènements BOUTON SUIVANT N°1
+let btnSuivant1 = document.getElementById("btnSuivant1");
 
 btnSuivant1.addEventListener('click', () => {
-  fieldsetReservation.style.display = "none";
-  fieldsetOptions.style.display = "block";
-  fieldsetCoordonnees.style.display = "none";
-})
+  // Validez la partie 1 avant de passer à la section suivante
+  if (validerPartie1()) {
+    // Si la validation réussit, passez à la section suivante
+    fieldsetReservation.style.display = "none";
+    fieldsetOptions.style.display = "block";
+    fieldsetCoordonnees.style.display = "none";
+  } else {
+    // Si la validation échoue, affichez une alerte et empêchez la transition
+    alert("Veuillez choisir 1 pass et la date correspondante.");
+  }
+});
 
-//Au clic sur le bouton suivant, passer à la section "coordonnées" et cacher les autres
-var btnSuivant2 = document.getElementById("btnSuivant2");
+// Fonction pour valider la partie 1
+function validerPartie1() {
+  // Ajoutez vos conditions de validation ici
+  let auMoinsUnPassCoche = pass1jourCheckbox.checked || pass2joursCheckbox.checked || pass3joursCheckbox.checked
+  || pass1jourReduitCheckbox.checked || pass2joursReduitCheckbox.checked || pass3joursReduitCheckbox.checked;
+  let nombrePlacesValide = parseInt(document.getElementById("nombrePlaces").value, 10) >= 1;
 
-btnSuivant2.addEventListener('click', () => {
-  fieldsetReservation.style.display = "none";
-  fieldsetOptions.style.display = "none";
-  fieldsetCoordonnees.style.display = "block";
-})
+  // Retourne true si la validation réussit, sinon false
+  return auMoinsUnPassCoche && nombrePlacesValide;
+}
+
+
+//Gestion d'évènements pour BOUTON SUIVANT N°2
+document.addEventListener('DOMContentLoaded', function() {
+  // Déclaration des variables ici
+  let radioEnfantsOui = document.getElementById("enfantsOui");
+  let radioEnfantsNon = document.getElementById("enfantsNon");
+  let btnSuivant2 = document.getElementById("btnSuivant2");
+
+  // Ajout du gestionnaire d'événements
+  btnSuivant2.addEventListener('click', () => {
+    if (validerPartie2()) {
+      // Si la validation réussit, passez à la section suivante
+      fieldsetReservation.style.display = "none";
+      fieldsetOptions.style.display = "none";
+      fieldsetCoordonnees.style.display = "block";
+    } else {
+      // Si la validation échoue, affichez une alerte et empêchez la transition
+      alert("Veuillez répondre à la question \"Venez-vous avec des enfants ?\"");
+    }
+  });
+
+  // Fonction pour valider la partie 1
+  function validerPartie2() {
+    // Ajoutez vos conditions de validation ici
+    let reponseEnfants = radioEnfantsOui.checked || radioEnfantsNon.checked;
+    // Retourne true si la validation réussit, sinon false
+    return reponseEnfants;
+  }
+});
+
+// let btnSuivant2 = document.getElementById("btnSuivant2");
+
+// btnSuivant2.addEventListener('click', () => {
+//   fieldsetReservation.style.display = "none";
+//   fieldsetOptions.style.display = "none";
+//   fieldsetCoordonnees.style.display = "block";
+// })
 //Au clic sur le bouton précédent on revient sur la section réservation
-var btnPrecedent = document.getElementById("btnPrecedent");
+let btnPrecedent = document.getElementById("btnPrecedent");
 
 btnPrecedent.addEventListener('click', () => {
   fieldsetReservation.style.display = "block";
@@ -34,7 +81,7 @@ btnPrecedent.addEventListener('click', () => {
 })
 
 //Au clic sur le 2ème bouton précédent on revient sur la section options
-var btnPrecedent2 = document.getElementById("btnPrecedent2");
+let btnPrecedent2 = document.getElementById("btnPrecedent2");
 
 btnPrecedent2.addEventListener('click', () => {
   fieldsetReservation.style.display = "none";
@@ -43,57 +90,63 @@ btnPrecedent2.addEventListener('click', () => {
 })
 
 //Afficher le choix de la date pour le pass 1 jour
-function choixDate1jour() {
-  let pass1jourCheckbox = document.getElementById("pass1jour");
-  let pass1jourDateSection = document.getElementById("pass1jourDate");
+let pass1jourCheckbox = document.getElementById("pass1jour");
+let pass1jourDateSection = document.getElementById("pass1jourDate");
 
+pass1jourCheckbox.addEventListener("change", choixDate1jour);
+
+function choixDate1jour() {
   pass1jourDateSection.style.display = pass1jourCheckbox.checked ? "block" : "none";
 }
-//Décocher les checkbox de dates quand on sélectionne une date dans "CHOIX DATE 1 JOUR"
-// document.addEventListener("DOMContentLoaded", function () {
-//   let choixJour1 = document.getElementById("choixJour1");
-//   let choixJour2 = document.getElementById("choixJour2");
-//   let choixJour3 = document.getElementById("choixJour3");
-//   //Empêcher de sélectionner plus d'une date 
-//   choixJour1.addEventListener("change", function () {
-//     if (choixJour1.checked) {
-//       choixJour2.checked = false;
-//       choixJour3.checked = false;
-//     }
-//   });
-  //Empêcher de sélectionner plus d'une date 
-//   choixJour2.addEventListener("change", function () {
-//     if (choixJour2.checked) {
-//       choixJour1.checked = false;
-//       choixJour3.checked = false;
-//     }
-//   });
-//   //Empêcher de sélectionner plus d'une date 
-//   choixJour3.addEventListener("change", function () {
-//     if (choixJour3.checked) {
-//       choixJour1.checked = false;
-//       choixJour2.checked = false;
-//     }
-//   });
-// });
 
-//Décocher une case quand une autre est cochée dans la section "CHOIX DATE 2 JOURS"
-// document.addEventListener("DOMContentLoaded", function () {
-//   let choixJour12 = document.getElementById("choixJour12");
-//   let choixJour23 = document.getElementById("choixJour23");
-//   //Empêcher de sélectionner plus d'une date 
-//   choixJour12.addEventListener("change", function () {
-//     if (choixJour12.checked) {
-//       choixJour23.checked = false;
-//     }
-//   });
-//   //Empêcher de sélectionner plus d'une date 
-//   choixJour23.addEventListener("change", function () {
-//     if (choixJour23.checked) {
-//       choixJour12.checked = false;
-//     }
-//   });
-// });
+//Masquer les dates des PASS TARIFS NORMAUX si les autres PASS sont sélectionnés
+let pass2joursCheckbox = document.getElementById("pass2jours");
+let pass3joursCheckbox = document.getElementById("pass3jours");
+let pass2joursDateSection = document.getElementById("pass2joursDate");
+
+pass1jourCheckbox.addEventListener("change", updateDateSection);
+pass2joursCheckbox.addEventListener("change", updateDateSection);
+pass3joursCheckbox.addEventListener("change", updateDateSection);
+
+function updateDateSection() {
+ 
+  if (pass2joursCheckbox.checked || pass3joursCheckbox.checked) {
+    pass1jourDateSection.style.display = "none";
+  } else {
+    pass1jourDateSection.style.display = "block";
+  }
+  if (pass1jourCheckbox.checked || pass3joursCheckbox.checked) {
+    pass2joursDateSection.style.display = "none";
+  } else {
+    pass2joursDateSection.style.display = "block";
+  }
+}
+
+//Masquer les dates des PASS TARIFS REDUITS si les autres PASS sont sélectionnés
+let pass1jourReduitCheckbox = document.getElementById("pass1jourreduit");
+let pass2joursReduitCheckbox = document.getElementById("pass2joursreduit");
+let pass3joursReduitCheckbox = document.getElementById("pass3joursreduit");
+let pass1jourReduitSection = document.getElementById("pass1jourDateReduit");
+let pass2joursReduitSection = document.getElementById("pass2joursDateReduit");
+
+pass1jourReduitCheckbox.addEventListener("change", updateDateSectionReduit);
+pass2joursReduitCheckbox.addEventListener("change", updateDateSectionReduit);
+pass3joursReduitCheckbox.addEventListener("change", updateDateSectionReduit);
+
+function updateDateSectionReduit() {
+ 
+  if (pass2joursReduitCheckbox.checked || pass3joursReduitCheckbox.checked) {
+    pass1jourReduitSection.style.display = "none";
+  } else {
+    pass1jourReduitSection.style.display = "block";
+  }
+  if (pass1jourReduitCheckbox.checked || pass3joursReduitCheckbox.checked) {
+    pass2joursReduitSection.style.display = "none";
+  } else {
+    pass2joursDateSection.style.display = "block";
+  }
+}
+
 //Afficher le choix de date pour le pass 2 jours
 function choixDate2jours() {
   let pass2joursCheckbox = document.getElementById("pass2jours");
@@ -124,33 +177,6 @@ function choixDate1jourReduit() {
 
   pass1jourDateSection.style.display = checkboxPass1jourReduit.checked ? "block" : "none";
 }
-//Empêcher de cocher d'autres cases dans PASS 1 JOUR REDUIT
-// document.addEventListener("DOMContentLoaded", function () {
-//   let choixJour1reduit = document.getElementById("choixJour1reduit");
-//   let choixJour2reduit = document.getElementById("choixJour2reduit");
-//   let choixJour3reduit = document.getElementById("choixJour3reduit");
-//   //Empêcher de sélectionner plus d'une date 
-//   choixJour1reduit.addEventListener("change", function () {
-//     if (choixJour1reduit.checked) {
-//       choixJour2reduit.checked = false;
-//       choixJour3reduit.checked = false;
-//     }
-//   });
-  //Empêcher de sélectionner plus d'une date 
-//   choixJour2reduit.addEventListener("change", function () {
-//     if (choixJour2reduit.checked) {
-//       choixJour1reduit.checked = false;
-//       choixJour3reduit.checked = false;
-//     }
-//   });
-//   //Empêcher de sélectionner plus d'une date 
-//   choixJour3reduit.addEventListener("change", function () {
-//     if (choixJour3reduit.checked) {
-//       choixJour1reduit.checked = false;
-//       choixJour2reduit.checked = false;
-//     }
-//   });
-// });
 
 //Afficher le choix des jours PASS 2 JOURS REDUIT
 function choixDate2joursReduit() {
@@ -160,51 +186,62 @@ function choixDate2joursReduit() {
   pass2joursDateSection.style.display = checkboxPass2joursReduit.checked ? "block" : "none";
 }
 
-// //Empêcher de sélectionner plusieurs jours PASS 2 JOURS REDUIT
-// document.addEventListener("DOMContentLoaded", function () {
-//   let choixJour12reduit = document.getElementById("choixJour12reduit");
-//   let choixJour23reduit = document.getElementById("choixJour23reduit");
-//   //Empêcher de sélectionner plus d'une date 
-//   choixJour12reduit.addEventListener("change", function () {
-//     if (choixJour12reduit.checked) {
-//       choixJour23reduit.checked = false;
-//     }
-//   });
-//   //Empêcher de sélectionner plus d'une date 
-//   choixJour23reduit.addEventListener("change", function () {
-//     if (choixJour23reduit.checked) {
-//       choixJour12reduit.checked = false;
-//     }
-//   });
-// });
 
-// //Cocher seulement 1 case dans la section "enfants"
-// choixJour23reduit.addEventListener("change", function () {
-//   if (choixJour23reduit.checked) {
-//     choixJour12reduit.checked = false;
-//   }
-// });
+//Cocher automatiquement "TENTE 3 NUITS" si les boutons des 3 nuits sont cochées
+function cocherTente3nuits() {
+  var tenteNuit1Checked = document.getElementById('tenteNuit1').checked;
+  var tenteNuit2Checked = document.getElementById('tenteNuit2').checked;
+  var tenteNuit3Checked = document.getElementById('tenteNuit3').checked;
+  var tente3NuitsButton = document.getElementById('tente3Nuits');
 
-//Afficher la réservation de casques si la checkbox "enfants" est cochée
-function afficherCasques() {
-  let checkboxEnfantsOui = document.getElementById("enfantsOui");
+  if (tenteNuit1Checked && tenteNuit2Checked && tenteNuit3Checked) {
+    // Si les trois premiers sont cochés, cochez le bouton "tente3Nuits" et décochez les trois premiers
+    tente3NuitsButton.checked = true;
+    document.getElementById('tenteNuit1').checked = false;
+    document.getElementById('tenteNuit2').checked = false;
+    document.getElementById('tenteNuit3').checked = false;
+  }
+  //Si le bouton "tente3Nuits" est coché désactiver les options précédentes
+  if (tente3NuitsButton.checked && (tenteNuit1.checked || tenteNuit2.checked || tenteNuit3.checked)) {
+    // Si c'est le cas, désélectionnez automatiquement les options précédentes
+    tenteNuit1.checked = false;
+    tenteNuit2.checked = false;
+    tenteNuit3.checked = false;
+  }
+}
+
+// Fonction pour cocher automatiquement "VAN 3 NUITS" si les boutons des 3 nuits sont cochés
+function cocherVan3nuits() {
+  var vanNuit1Checked = document.getElementById('vanNuit1').checked;
+  var vanNuit2Checked = document.getElementById('vanNuit2').checked;
+  var vanNuit3Checked = document.getElementById('vanNuit3').checked;
+  var van3NuitsButton = document.getElementById('van3Nuits');
+
+  if (vanNuit1Checked && vanNuit2Checked && vanNuit3Checked) {
+    // Si les trois premiers sont cochés, cochez le bouton "van3Nuits" et décochez les trois premiers
+    van3NuitsButton.checked = true;
+    document.getElementById('vanNuit1').checked = false;
+    document.getElementById('vanNuit2').checked = false;
+    document.getElementById('vanNuit3').checked = false;
+  }
+  //Si le bouton "van3Nuits" est coché désactiver les options précédentes
+  if (van3NuitsButton.checked && (vanNuit1.checked || vanNuit2.checked || vanNuit3.checked)) {
+    // Si c'est le cas, désélectionnez automatiquement les options précédentes
+    vanNuit1.checked = false;
+    vanNuit2.checked = false;
+    vanNuit3.checked = false;
+  }
+}
+
+function afficherMasquerCasques() {
+  let radioEnfantsOui = document.getElementById("enfantsOui");
   let sectionCasquesEnfants = document.getElementById("casquesEnfants");
-
-  sectionCasquesEnfants.style.display = checkboxEnfantsOui.checked ? "block" : "none";
+  
+  if (radioEnfantsOui.checked) {
+    sectionCasquesEnfants.style.display = "block";
+  } 
+  else {
+    sectionCasquesEnfants.style.display = "none";
+  }
 };
 
-//Sélectionner OUI ou NON dans la section "enfants"
-// let checkboxEnfantsOui = document.getElementById("enfantsOui");
-// let checkboxEnfantsNon = document.getElementById("enfantsNon");
-
-// checkboxEnfantsOui.addEventListener("change", function () {
-//   if (checkboxEnfantsOui.checked) {
-//     checkboxEnfantsNon.checked = false;
-//   }
-// });
-
-// checkboxEnfantsNon.addEventListener("change", function () {
-//   if (checkboxEnfantsNon.checked) {
-//     checkboxEnfantsOui.checked = false;
-//   }
-// });
